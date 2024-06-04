@@ -1,8 +1,10 @@
-#include <iostream>
+#include "iostream"
 
 using namespace std;
 
 int main() {
-  cout << "Hello World" << endl;
-  return 0;
+  double x;
+
+  cin >> x;
+  cout << x * x * x << endl;
 }
