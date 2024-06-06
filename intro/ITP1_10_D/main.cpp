@@ -7,6 +7,8 @@
 #include <iomanip>
 using namespace std;
 
+// ミンコフスキー距離
+// https://chatgpt.com/c/463afc08-00e7-4b09-b5e3-8447ef4a6861
 double minkowski(vector<double> x, vector<double> y, int p) {
   double sum = 0;
   for (int i = 0; i < x.size(); i++) {
