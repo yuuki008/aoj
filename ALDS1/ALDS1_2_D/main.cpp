@@ -2,56 +2,56 @@
 #include<vector>
 using namespace std;
 
-long long cnt;
+int cnt = 0;
 
-void insertion_sort(int seq[], int n, int g) {
-  int i, j, v;
-  for (i = g; i < n; i++) {
-    v = seq[i];
-    j = i - g;
-    while (j >= 0 && seq[j] > v) {
-      seq[j+g] = seq[j];
-      j -= g;
+void insertionSort(int A[], int n, int g) {
+  for(int i=g; i<n; i++) {
+    int v = A[i];
+    int j = i - g;
+    while (j >= 0 && A[j] > v) {
       cnt++;
+      A[j+g] = A[j];
+      j -= g;
     }
-    seq[j+g] = v;
+
+    A[j+g] = v;
   }
 }
 
-void shell_sort(int seq[], vector<int> G, int n, int m) {
-  int i, g;
-  
-  for (i = m-1; i >= 0; i--) {
-    g = G[i];
-    insertion_sort(seq, n, g);
-  }    
+void shellSort(int A[], vector<int> G, int n) {
+  for(int i=G.size()-1; i>=0; i--) {
+    insertionSort(A, n, G[i]);
+  }
 }
 
 int main() {
-  int i, n, m, g;
-  int seq[1000000];
-  vector<int> G;
-  
+  int n;
   cin >> n;
-  for (i = 0; i < n; i++) cin >> seq[i];
   
-  g = 1;
-  while (g <= n) {
-    G.push_back(g);
-    g = 3 * g + 1;
+  int A[1000000];
+  for(int i=0; i<n; i++) {
+    cin >> A[i];
   }
-  m = G.size();
 
-  shell_sort(seq, G, n, m);
+  vector<int> G;
+  int h = 1;
+  while (h <= n) {
+    G.push_back(h);
+    h = 3*h + 1;
+  }
 
-  cout << m << endl;
-  for (i = m-1; i >= 0; i--) {
-    if (i < m - 1) cout << " ";
+  shellSort(A, G, n);
+
+  cout << G.size() << endl;
+  for(int i=G.size()-1; i>=0; i--) {
     cout << G[i];
+    if (i != 0) cout << " ";
   }
   cout << endl;
   cout << cnt << endl;
-  for (i = 0; i < n; i++) cout << seq[i] << endl;
-  
+  for(int i=0; i<n; i++) {
+    cout << A[i] << endl;
+  }
+
   return 0;
 }
