@@ -1,47 +1,54 @@
 #include <iostream>
-#include <map>
 #include <vector>
-#include <algorithm>
-#include <string>
-#include <cmath>
-#include <iomanip>
-#include <climits>
 using namespace std;
 
 #define MAX 100000
-int n, k;
-long long T[MAX];
 
-int check(long long P) {
-  int i = 0;
-  for (int j = 0; j < k; j++) {
-    long long s = 0;
-    while (s + T[i] <= P) {
-      s += T[i];
-      i++;
-      if (i == n) return n;
+// グローバル変数の宣言
+int numPackages, numTrucks;
+long long packages[MAX];
+
+// 最大積載量maxCapacityで全ての荷物を積むことができるかチェックする関数
+int check(long long maxCapacity) {
+    int currentPackageIndex = 0;
+
+    // 各トラックに積み込む
+    for (int truck = 0; truck < numTrucks; truck++) {
+        long long currentLoad = 0; // 現在のトラックの積載量
+
+        // トラックに詰めるだけ荷物を積む
+        while (currentLoad + packages[currentPackageIndex] <= maxCapacity) {
+            currentLoad += packages[currentPackageIndex];
+            currentPackageIndex++;
+            if (currentPackageIndex == numPackages) return currentPackageIndex;
+        }
     }
-  }
-  return i;
+
+    return currentPackageIndex;
 }
 
-
 int main() {
-  cin >> n >> k;
-  for(int i=0; i<n; i++) cin >> T[i];
+    cin >> numPackages >> numTrucks;
+    for (int i = 0; i < numPackages; i++) {
+        cin >> packages[i];
+    }
 
-  long long left = 0;
-  long long right = 100000 * 10000;
-  long long mid;
+    long long left = 0;
+    long long right = 100000 * 10000;
+    long long mid;
 
-  while (right - left > 1) {
-    mid = (left + right) / 2;
-    int v = check(mid);
-    if (v >= n) right = mid;
-    else left = mid;
-  }
+    // 二分探索で最小の積載量を求める
+    while (right - left > 1) {
+        mid = (left + right) / 2;
+        int numLoadedPackages = check(mid);
+        if (numLoadedPackages >= numPackages) {
+            right = mid;
+        } else {
+            left = mid;
+        }
+    }
 
-  cout << right << endl;
+    cout << right << endl;
 
-  return 0;
+    return 0;
 }
