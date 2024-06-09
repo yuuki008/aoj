@@ -8,25 +8,40 @@
 #include <climits>
 using namespace std;
 
+#define MAX 100000
+int n, k;
+long long T[MAX];
+
+int check(long long P) {
+  int i = 0;
+  for (int j = 0; j < k; j++) {
+    long long s = 0;
+    while (s + T[i] <= P) {
+      s += T[i];
+      i++;
+      if (i == n) return n;
+    }
+  }
+  return i;
+}
+
+
 int main() {
-  int n, k;
   cin >> n >> k;
-  vector<int> w(n);
-  for (int i = 0; i < n; i++) cin >> w[i];
+  for(int i=0; i<n; i++) cin >> T[i];
 
-  // 降順にソート
-  sort(w.begin(), w.end(), greater<int>());
+  long long left = 0;
+  long long right = 100000 * 10000;
+  long long mid;
 
-  vector<int> loadCount(k, 0);
-
-  for(int i = 0; i < n; i++) {
-    auto min = min_element(loadCount.begin(), loadCount.end());
-    *min += w[i];
+  while (right - left > 1) {
+    mid = (left + right) / 2;
+    int v = check(mid);
+    if (v >= n) right = mid;
+    else left = mid;
   }
 
-  auto max = max_element(loadCount.begin(), loadCount.end());
-
-  cout << *max << endl;
+  cout << right << endl;
 
   return 0;
 }
