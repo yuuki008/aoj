@@ -8,6 +8,8 @@
 #include <climits>
 using namespace std;
 
+// TODO: 三角関数わかんないから別で勉強する！！
+
 struct Point {
   double x, y;
 };
