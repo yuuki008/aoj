@@ -7,19 +7,15 @@
 #include <iomanip>
 #include <climits>
 using namespace std;
-// int n = 5;
-// int q = 1;
-// vector<int> a = { 1, 5, 7, 10, 21 };
-// vector<int> m = { 21 };
+
 int n, q;
 vector<int> a;
 vector<int> m;
 
 
 bool exhaustiveSearch(int i, int m) {
-  if (i > n) return false;
-  if (m < 0) return false;
   if (m == 0) return true;
+  if (m < 0 || i >= n) return false;
 
   if (exhaustiveSearch(i+1, m-a[i])) return true;
   return exhaustiveSearch(i+1, m);
