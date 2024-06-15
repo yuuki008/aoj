@@ -61,15 +61,14 @@ void bubbleSort(vector<Card> &A) {
 
 
 int main() {
-  int n;
-  cin >> n;
-  vector<Card> A(n);
-  for (int i=0; i<n; i++) {
-    char suit;
-    int value;
-    cin >> suit >> value;
-    A[i].suit = suit;
-    A[i].value = value;
+  int n = 6;
+  vector<Card> A = {
+    { 'D', 3 },
+    { 'H', 2 },
+    { 'D', 1 },
+    { 'S', 3 },
+    { 'D', 2 },
+    { 'C', 1 }
   };
 
   vector<Card> qsA = A;
@@ -85,10 +84,11 @@ int main() {
   };
 
   if (isStable == true) cout << "Stable" << endl;
-  else cout << "Not stable" << endl;
+  else cout << "Not Stable" << endl;
 
 
   for(int i=0; i<n; i++) cout << qsA[i].suit << " " << qsA[i].value << endl;
+  cout << endl;
 
   return 0;
 }
