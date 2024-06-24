@@ -25,11 +25,11 @@ class BST {
     }
 
     void find(int v) {
-      Node currentNode = root;
+      Node* currentNode = root;
 
       bool found=false;
       while(currentNode != nullptr) {
-        if (currentNode.val == v) {
+        if (currentNode->val == v) {
           found=true;
           break;
         }
