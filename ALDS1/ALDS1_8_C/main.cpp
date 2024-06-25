@@ -64,32 +64,37 @@ private:
   }
 
   Node *deleteNode(Node *root, int v) {
-    if (root == nullptr)
+    if (!root)
       return root;
 
     if (v < root->val) {
       root->left = deleteNode(root->left, v);
-    } else if (v > root->val) {
+      return root;
+    };
+    if (v > root->val) {
       root->right = deleteNode(root->right, v);
-    } else {
-      if (!root->left) {
-        Node *tmp = root->right;
-        delete root;
-        return tmp;
-      } else if (!root->right) {
-        Node *tmp = root->left;
-        delete root;
-        return tmp;
-      };
+      return root;
+    };
 
+    if (!root->left) {
       Node *tmp = root->right;
-      while (tmp && tmp->left)
-        tmp = tmp->left;
-      root->val = tmp->val;
-      root->right = deleteNode(root->right, tmp->val);
+      delete root;
+      return tmp;
+    } else if (!root->right) {
+      Node *tmp = root->left;
+      delete root;
+      return tmp;
     }
+
+    Node *minNode = root->right;
+    while (minNode && !minNode) {
+      minNode = minNode->left;
+    }
+    root->val = minNode->val;
+    root->right = deleteNode(root->right, minNode->val);
     return root;
-  };
+  }
+
   void inOrderRec(Node *node) {
     if (node != nullptr) {
       inOrderRec(node->left);
