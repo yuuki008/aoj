@@ -16,12 +16,14 @@ struct Node {
 class Treap {
 public:
   Treap() : root(nullptr){};
+
   void print() {
     inOrderRec(root);
     cout << endl;
     preOrderRec(root);
     cout << endl;
   }
+
   void find(int v) {
     Node *currentNode = root;
 
@@ -43,10 +45,12 @@ public:
     else
       cout << "no" << endl;
   };
-  void insert(int val) {}
+
+  void insert(int val, int priority) { root = _insert(root, val, priority); }
 
 private:
   Node *root;
+
   Node *_insert(Node *t, int val, int priority) {
     if (!t)
       return new Node(val, priority);
@@ -71,14 +75,15 @@ private:
     Node *tmp = t->left;
     t->left = tmp->right;
     tmp->right = t;
-    return t;
+
+    return tmp;
   }
 
   Node *leftRotate(Node *t) {
     Node *tmp = t->right;
     t->right = tmp->left;
     tmp->left = t;
-    return t;
+    return tmp;
   }
 
   void inOrderRec(Node *node) {
@@ -98,28 +103,43 @@ private:
   };
 };
 
+struct Command {
+  string type;
+  int value;
+  int priority;
+};
+
 int main() {
   const int n = 16;
 
-  const string orders[n] = {"insert 35 99", "insert 3 80",  "insert 1 53",
-                            "insert 14 25", "insert 80 76", "insert 42 3",
-                            "insert 86 47", "insert 21 12", "insert 7 10",
-                            "insert 6 90",  "print",        "find 21",
-                            "find 22",      "print"};
-
+  Command commands[n] = {
+      {"insert", 35, 99}, // テストコメント
+      {"insert", 3, 80},  // テストコメント
+      {"insert", 1, 53},  // テストコメント
+      {"insert", 14, 25}, // テストコメント
+      {"insert", 80, 76}, // テストコメント
+      {"insert", 42, 3},  // テストコメント
+      {"insert", 86, 47}, // テストコメント
+      {"insert", 21, 12}, // テストコメント
+      {"insert", 7, 10},  // テストコメント
+      {"insert", 6, 90},  // テストコメント
+      {"print", 0, 0},    // テストコメント
+      {"find", 21, 0},    // テストコメント
+      {"find", 22, 0},    // テストコメント
+      {"delete", 35, 0},  // テストコメント
+      {"delete", 99, 0},  // テストコメント
+      {"print", 0, 0}     // テストコメント
+  };
   Treap treap;
   for (int i = 0; i < n; i++) {
-    string order = orders[i];
-    if (order.substr(0, 6) == "insert") {
-      int pos = order.find(" ", 7);
-      int val = stoi(order.substr(7, pos - 7));
-      int priority = stoi(order.substr(pos + 1));
-      treap.insert(val); // 優先度の処理を追加
-    } else if (order.substr(0, 4) == "find") {
-      int val = stoi(order.substr(5));
-      treap.find(val);
-    } else if (order == "print")
+    Command cmd = commands[i];
+    if (cmd.type == "insert") {
+      treap.insert(cmd.value, cmd.priority);
+    } else if (cmd.type == "find") {
+      treap.find(cmd.value);
+    } else if (cmd.type == "print") {
       treap.print();
-  }
+    }
+  };
   return 0;
 }
