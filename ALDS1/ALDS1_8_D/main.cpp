@@ -5,17 +5,15 @@ using namespace std;
 struct Node {
   int val;
   int priority;
-  Node *parent;
   Node *left;
   Node *right;
   Node(int val, int priority)
-      : val(val), priority(priority), parent(nullptr), left(nullptr),
-        right(nullptr){};
+      : val(val), priority(priority), left(nullptr), right(nullptr) {}
 };
 
 class Treap {
 public:
-  Treap() : root(nullptr){};
+  Treap() : root(nullptr) {}
 
   void print() {
     inOrderRec(root);
@@ -44,9 +42,11 @@ public:
       cout << "yes" << endl;
     else
       cout << "no" << endl;
-  };
+  }
 
   void insert(int val, int priority) { root = _insert(root, val, priority); }
+
+  void _delete(int val) { root = remove(root, val); }
 
 private:
   Node *root;
@@ -69,13 +69,46 @@ private:
     }
 
     return t;
-  };
+  }
+
+  Node *_remove(Node *t, int val) {
+    if (!t->left && !t->right) {
+      delete t;
+      return nullptr;
+    }
+
+    if (!t->left) {
+      t = leftRotate(t);
+    } else if (!t->right) {
+      t = rightRotate(t);
+    } else if (t->left->priority > t->right->priority) {
+      t = rightRotate(t);
+    } else {
+      t = leftRotate(t);
+    }
+
+    return remove(t, val);
+  }
+
+  Node *remove(Node *node, int val) {
+    if (!node)
+      return nullptr;
+    if (val == node->val)
+      return _remove(node, val);
+
+    if (val < node->val) {
+      node->left = remove(node->left, val);
+    } else {
+      node->right = remove(node->right, val);
+    }
+
+    return node;
+  }
 
   Node *rightRotate(Node *t) {
     Node *tmp = t->left;
     t->left = tmp->right;
     tmp->right = t;
-
     return tmp;
   }
 
@@ -92,7 +125,7 @@ private:
       cout << " " << node->val;
       inOrderRec(node->right);
     }
-  };
+  }
 
   void preOrderRec(Node *node) {
     if (node != nullptr) {
@@ -100,7 +133,7 @@ private:
       preOrderRec(node->left);
       preOrderRec(node->right);
     }
-  };
+  }
 };
 
 struct Command {
@@ -110,36 +143,28 @@ struct Command {
 };
 
 int main() {
-  const int n = 16;
+  int n;
+  cin >> n;
 
-  Command commands[n] = {
-      {"insert", 35, 99}, // テストコメント
-      {"insert", 3, 80},  // テストコメント
-      {"insert", 1, 53},  // テストコメント
-      {"insert", 14, 25}, // テストコメント
-      {"insert", 80, 76}, // テストコメント
-      {"insert", 42, 3},  // テストコメント
-      {"insert", 86, 47}, // テストコメント
-      {"insert", 21, 12}, // テストコメント
-      {"insert", 7, 10},  // テストコメント
-      {"insert", 6, 90},  // テストコメント
-      {"print", 0, 0},    // テストコメント
-      {"find", 21, 0},    // テストコメント
-      {"find", 22, 0},    // テストコメント
-      {"delete", 35, 0},  // テストコメント
-      {"delete", 99, 0},  // テストコメント
-      {"print", 0, 0}     // テストコメント
-  };
   Treap treap;
   for (int i = 0; i < n; i++) {
-    Command cmd = commands[i];
-    if (cmd.type == "insert") {
-      treap.insert(cmd.value, cmd.priority);
-    } else if (cmd.type == "find") {
-      treap.find(cmd.value);
-    } else if (cmd.type == "print") {
+    string order;
+    cin >> order;
+
+    if (order == "insert") {
+      int val, priority;
+      cin >> val >> priority;
+      treap.insert(val, priority);
+    } else if (order == "find") {
+      int val;
+      cin >> val;
+      treap.find(val);
+    } else if (order == "delete") {
+      int val;
+      cin >> val;
+      treap._delete(val);
+    } else if (order == "print")
       treap.print();
-    }
-  };
+  }
   return 0;
 }
