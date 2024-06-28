@@ -2,29 +2,25 @@
 #include <vector>
 using namespace std;
 
-void maxHeapify(vector<int> &A, int i, int heapSize) {
-  int l = 2 * i + 1;
-  int r = 2 * i + 2;
+void maxifyHeap(vector<int> &A, int i, int heapSize) {
+  int left = i*2+1;
+  int right = i*2+2;
   int largest = i;
 
-  if (l < heapSize && A[l] > A[largest]) {
-    largest = l;
-  }
-
-  if (r < heapSize && A[r] > A[largest]) {
-    largest = r;
-  }
+  if (left < heapSize && A[left] > A[largest]) largest = left;
+  if (right < heapSize && A[right] > A[largest]) largest = right;
 
   if (largest != i) {
     swap(A[i], A[largest]);
-    maxHeapify(A, largest, heapSize);
+    maxifyHeap(A, largest, heapSize);
   }
 }
 
-void buildMaxHeap(vector<int> &A) {
-  int heapSize = A.size();
-  for (int i = heapSize / 2 - 1; i >= 0; i--) {
-    maxHeapify(A, i, heapSize);
+void buildMaxHeap(vector<int> &heap) {
+  int heapSize=heap.size();
+
+  for (int i=heapSize/2-1; i>=0; i--) {
+    maxifyHeap(heap, i, heapSize);
   }
 }
 
