@@ -5,7 +5,8 @@ using namespace std;
 vector<int> heap;
 
 void heapify_up(int i) {
-  if (i == 0) return; // If it's the root, return
+  if (i == 0)
+    return; // If it's the root, return
   int parent = (i - 1) / 2;
   if (heap[parent] < heap[i]) {
     swap(heap[parent], heap[i]);
@@ -63,4 +64,3 @@ int main() {
 
   return 0;
 }
-
