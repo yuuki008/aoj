@@ -10,25 +10,26 @@ using namespace std;
 // 4: [0, 0, 1, 0]
 
 int main() {
-  int n = 4;
-  vector<vector<int>> A = {{1, 2, 2, 4}, {2, 1, 4}, {3, 0}, {4, 1, 3}};
+  int n;
+  cin >> n;
+
   vector<vector<int>> matrix(n, vector<int>(n, 0));
-
   for (int i = 0; i < n; i++) {
-    int u = A[i][0];
+    int u, k;
+    cin >> u >> k;
 
-    int k = A[i][1];
-
-    for (int j = 2; j < 2 + k; j++) {
-      int node = A[i][j];
-      matrix[u - 1][node - 1] = 1;
+    for (int j = 0; j < k; j++) {
+      int edge;
+      cin >> edge;
+      matrix[u - 1][edge - 1] = 1;
     }
-  };
+  }
 
   for (int i = 0; i < n; i++) {
-    cout << i + 1 << ": ";
     for (int j = 0; j < n; j++) {
-      cout << matrix[i][j] << " ";
+      cout << matrix[i][j];
+      if (j != n - 1)
+        cout << " ";
     }
     cout << endl;
   }
