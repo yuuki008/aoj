@@ -42,14 +42,6 @@ int main () {
   int n;
   cin >> n;
   vector<vector<P>> adj(n);
-  vector<vector<int>> G = {
-    { -1, 2, 3, 1, -1 },
-    { 2, -1, -1, 4, -1 },
-    { 3, -1, -1, 1, 1 },
-    { 1, 4, 1, -1, 3 },
-    { -1, -1, 1, 3, 1 }
-  };
-
 
   for (int i=0; i<n; i++) {
     for (int j=0; j<n; j++) {
